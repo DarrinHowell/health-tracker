@@ -19,10 +19,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void sendMessage(View view) {
+    // keeps track of user's clicks on the main activity
+    public void clickCount(View view) {
         counter++;
         TextView homeView = findViewById(R.id.counterText);
         homeView.setText("Keep clicking! Here is your click count: " + counter);
 
+    }
+
+    public void toggleStartStop(View view) {
+        TextView homeView = findViewById(R.id.stopWatch_start);
+        CharSequence buttonText = homeView.getText();
+        if(buttonText.equals("Start")) {
+            homeView.setText("Pause");
+        } else {
+            homeView.setText("Start");
+        }
     }
 }
