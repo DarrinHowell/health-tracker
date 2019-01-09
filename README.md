@@ -12,3 +12,6 @@ Darrin Howell
 * * One button will toggle between start and pause
 * * The other will reset the watch
 
+## 20190109:
+* Separated activities into different views. 
+* Currently building out notifications functionality.
