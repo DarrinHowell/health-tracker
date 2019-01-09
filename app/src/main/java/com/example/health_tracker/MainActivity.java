@@ -38,5 +38,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stopwatch);
     }
 
+    protected void onHydratehNavClick(View view) {
+        Intent navigateToHydrate = new Intent(getApplicationContext(), NotificationInitializor.class);
+        startActivity(navigateToHydrate);
+        setContentView(R.layout.activity_notification_initializor);
+
+    }
+
 
 }

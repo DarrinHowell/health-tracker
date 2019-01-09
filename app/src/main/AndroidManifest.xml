@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".FingerFlexor" />
-        <activity android:name=".Stopwatch"></activity>
+        <activity android:name=".Stopwatch" />
+        <activity android:name=".NotificationInitializor"></activity>
     </application>
 
 </manifest>
