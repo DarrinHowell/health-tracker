@@ -15,3 +15,7 @@ Darrin Howell
 ## 20190109:
 * Separated activities into different views. 
 * Currently building out notifications functionality.
+
+## 20190110:
+* Added annotations to Room database implementation
+* Having compiler errors adding to the database
