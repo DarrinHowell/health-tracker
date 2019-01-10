@@ -1,13 +1,11 @@
 package com.example.health_tracker;
 
 import android.content.Intent;
-import android.os.Process;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
-import java.util.Date;
 
 public class Stopwatch extends AppCompatActivity {
 

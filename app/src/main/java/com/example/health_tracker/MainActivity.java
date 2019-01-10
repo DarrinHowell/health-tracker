@@ -1,18 +1,12 @@
 package com.example.health_tracker;
 
 import android.content.Intent;
-import android.os.Process;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.logging.Logger;
 
 public class MainActivity extends AppCompatActivity {
     private int counter = 0;
@@ -21,6 +15,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "database-name").build();
+
     }
 
     protected void onFingerFlexorNavClick(View view) {
