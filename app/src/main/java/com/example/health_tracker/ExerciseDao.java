@@ -12,17 +12,16 @@ public interface ExerciseDao {
     @Query("SELECT * FROM exercise")
     List<Exercise> getAll();
 
-//    @Query("SELECT * FROM user WHERE uid IN (:userIds)")
-//    List<Exercise> loadAllByIds(int[] userIds);
-//
-//    @Query("SELECT * FROM user WHERE first_name LIKE :first AND " +
-//            "last_name LIKE :last LIMIT 1")
-//    User findByName(String first, String last);
-//
-//    @Insert
-//    void insertAll(User... users);
-//
-//    @Delete
-//    void delete(User user);
+    @Query("SELECT * FROM exercise WHERE eid IN (:exerciseIds)")
+    List<Exercise> loadAllByIds(int[] exerciseIds);
+
+    @Query("SELECT * FROM exercise WHERE title IN (:title)")
+    String findByTitle (String title);
+
+    @Insert
+    void insertSingleExercise(Exercise exercise);
+
+    @Delete
+    void delete(Exercise exercise);
 
 }

@@ -1,11 +1,7 @@
 package com.example.health_tracker;
 
-import android.os.health.TimerStat;
 
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Date;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -15,7 +11,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Exercise {
     @PrimaryKey
-    public int id;
+    public int eid;
 
     @ColumnInfo(name = "title")
     public String title;
@@ -31,9 +27,13 @@ public class Exercise {
 
     public Exercise() {}
 
+    public String toString() {
+        return "Exercise title: " + this.title + ". Total number of reps: " + this.quantity;
+    }
+
 
     public int getId() {
-        return this.id;
+        return this.eid;
     }
 
     public String getTitle() {

@@ -8,6 +8,8 @@ import androidx.room.Room;
 import android.os.Bundle;
 import android.view.View;
 
+import java.sql.Timestamp;
+
 public class MainActivity extends AppCompatActivity {
     private int counter = 0;
 
@@ -43,5 +45,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    // attribution for pattern of adding to the db via dao: https://medium.freecodecamp.org/room-sqlite-beginner-tutorial-2e725e47bfab
+    protected void onDBTestClick(View view) {
+        AppDatabase exerciseDB = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "exercise_tracker_db").build();
+        Exercise exercise =new Exercise();
+        exercise.setTitle("Pull Ups");
+        exercise.setQuantity(30);
+        exercise.setDescription("6 sets of five pull ups");
+        exercise.setTimeStamp(new Timestamp(System.currentTimeMillis()));
+        exerciseDB.exerciseDao().insertSingleExercise(exercise);
+
+        System.out.println(exerciseDB.exerciseDao().findByTitle("Pull Ups"));
+    }
 
 }
