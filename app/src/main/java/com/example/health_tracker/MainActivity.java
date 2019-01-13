@@ -17,10 +17,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "database-name").build();
-
     }
 
     protected void onFingerFlexorNavClick(View view) {
@@ -47,17 +43,5 @@ public class MainActivity extends AppCompatActivity {
 
 
     // attribution for pattern of adding to the db via dao: https://medium.freecodecamp.org/room-sqlite-beginner-tutorial-2e725e47bfab
-    protected void onDBTestClick(View view) {
-        AppDatabase exerciseDB = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "exercise_tracker_db").build();
-        Exercise exercise =new Exercise();
-        exercise.setTitle("Pull Ups");
-        exercise.setQuantity(30);
-        exercise.setDescription("6 sets of five pull ups");
-        exercise.setTimeStamp(new Timestamp(System.currentTimeMillis()));
-        exerciseDB.exerciseDao().insertSingleExercise(exercise);
-
-        System.out.println(exerciseDB.exerciseDao().findByTitle("Pull Ups"));
-    }
 
 }
