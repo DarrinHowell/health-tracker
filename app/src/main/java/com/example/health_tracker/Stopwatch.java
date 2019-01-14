@@ -4,25 +4,55 @@ import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.TextView;
 
+// attribution for choronometer class syntax: https://www.youtube.com/watch?v=RLnb4vVkftc
+// logic for resetting calculator was thought up independently and adapted with the following syntax
 public class Stopwatch extends AppCompatActivity {
+
+    TextView textTimer;
+    private Handler customHandler = new Handler();
+    private long startTime=0L, timeInMilliseconds=0L, timeSwapBuff=0L, updateTime=0L;
+    private int secs, mins, hours, milliseconds;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stopwatch);
+
+        textTimer = findViewById(R.id.textTimer);
     }
 
-    public void toggleStartStop(View view) {
-        TextView homeView = findViewById(R.id.stopWatch_start);
-        CharSequence buttonText = homeView.getText();
-        if(buttonText.equals("Start")) {
-            homeView.setText("Pause");
-        } else {
-            homeView.setText("Start");
+    Runnable updateTimeThread = new Runnable() {
+        @Override
+        public void run() {
+            setTime(true, startTime, (updateTime = timeSwapBuff + timeInMilliseconds),
+                    timeSwapBuff, (timeInMilliseconds = SystemClock.uptimeMillis() - startTime));
+            customHandler.postDelayed(this, 0);
         }
+    };
+
+    public void startTimer(View view) {
+        startTime = SystemClock.uptimeMillis();
+
+        customHandler.postDelayed(updateTimeThread, 0);
+    }
+
+    public void pauseTimer(View view) {
+        timeSwapBuff += timeInMilliseconds;
+        customHandler.removeCallbacks(updateTimeThread);
+    }
+
+    public void resetTimer(View view) {
+        // reset all values back to zero.
+        setTime( false,0,0,0, 0);
+        customHandler.removeCallbacks(updateTimeThread);
     }
 
     public void onHomeNavClick(View view) {
@@ -31,30 +61,24 @@ public class Stopwatch extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-//    @Override
-//    public void run() {
-//        android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-//    }
-//
-//
-//    class StopWatchManager extends Thread {
-//        // instance variable for time when thread is started.
-//
-//        public StopWatchManager(Date now) {
-//
-//        }
-//
-//        @Override
-//        public void run() {
-//            // we will want a function that captures the current time at which the thread is started
-//            // this function will also keep track of currentTimeMillis and subtract the current
-//            // time from the start time, giving us the time elapsed since starting our thread.
-//
-//            // we will call this function every time start is pressed
-//
-//            // returns the current time in milliseconds
-////            System.out.print("Current Time in milliseconds = ");
-////            System.out.println(System.currentTimeMillis());
-//        }
-//    }
+    public void setTime(boolean update, long updatedStartTime, long updatedUpdateTime, long updatedTimeSwapBuff, long updatedTimeInMilliseconds) {
+        timeInMilliseconds = updatedTimeInMilliseconds;
+        startTime = updatedStartTime;
+        updateTime = updatedUpdateTime;
+        timeSwapBuff = updatedTimeSwapBuff;
+
+        if (update) {
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+        }
+        updateTime = timeSwapBuff + timeInMilliseconds;
+        secs = (int) updateTime / 1000;
+        mins = secs / 60;
+        hours = mins / 60;
+        secs %= 60;
+        milliseconds = (int) (updateTime % 1000);
+        textTimer.setText("" + String.format("%2d", hours) + ":" + String.format("%02d", mins) + ":" +
+                String.format("%02d", secs) + ":" +
+                String.format("%03d", milliseconds));
+    }
+
 }
