@@ -12,12 +12,12 @@
     <Button
         android:id="@+id/FingerFlexNav"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="72dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="40dp"
         android:onClick="onFingerFlexorNavClick"
         android:text="Finger Flexor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,10 +32,10 @@
         android:text="Stopwatch"
         app:layout_constraintBottom_toTopOf="@+id/hydrateNav"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/FingerFlexNav"
-        app:layout_constraintVertical_bias="0.455" />
+        app:layout_constraintVertical_bias="0.547" />
 
     <Button
         android:id="@+id/hydrateNav"
@@ -44,8 +44,11 @@
         android:onClick="onHydratehNavClick"
         android:text="Hydrate"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="272dp" />
+        app:layout_constraintTop_toBottomOf="@+id/stopWatchNav"
+        app:layout_constraintBottom_toTopOf="@+id/saveToDB"
+        tools:layout_editor_absoluteY="291dp" />
 
     <Button
         android:id="@+id/saveToDB"
