@@ -9,12 +9,11 @@ Darrin Howell
 * Initial setup of app.
 * Added counter feature upon button click.
 * Added buttons that control a stop watch.
-* * One button will toggle between start and pause
-* * The other will reset the watch
+* Stopwatch keeping track of time elapsed. 
 
 ## 20190109:
 * Separated activities into different views. 
-* Currently building out notifications functionality.
+* Notifications being scheduled in the future. 
 
 ## 20190110:
 * Added annotations to Room database implementation
