@@ -41,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void onExerciseDiaryNavClick(View view) {
+        Intent navigateToDiary = new Intent(getApplicationContext(), ExerciseDiary.class);
+        startActivity(navigateToDiary);
+        setContentView(R.layout.activity_exercise_diary);
+    }
+
 
     // attribution for pattern of adding to the db via dao: https://medium.freecodecamp.org/room-sqlite-beginner-tutorial-2e725e47bfab
 

@@ -19,8 +19,11 @@
         </activity>
         <activity android:name=".FingerFlexor" />
         <activity android:name=".Stopwatch" />
-        <activity android:name=".NotificationInitializor"></activity>
-        <receiver android:name=".MyNotificationPublisher"></receiver>
+        <activity android:name=".NotificationInitializor" />
+
+        <receiver android:name=".MyNotificationPublisher" />
+
+        <activity android:name=".ExerciseDiary"></activity>
     </application>
 
 </manifest>
