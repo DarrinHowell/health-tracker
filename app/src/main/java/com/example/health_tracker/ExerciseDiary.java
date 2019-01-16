@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.text.DateFormat;
@@ -21,32 +23,10 @@ public class ExerciseDiary extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_diary);
 
-
-
         db = Room.databaseBuilder(getApplicationContext(),
                 ExerciseDatabase.class, "exercise-diary").allowMainThreadQueries().build();
 
-        addExerciseToDB();
-
         renderExerciseToDB();
-
-    }
-
-    // test method -- adding an exercise to the database
-    public void addExerciseToDB() {
-
-        // attribution to date formatter: https://dzone.com/articles/getting-current-date-time-in-java
-        // create and format date object
-        Date date = new Date();
-        String dateFormatStringified = "hh:mm:ss a";
-        DateFormat dateFormat = new SimpleDateFormat(dateFormatStringified);
-        String formattedDate = dateFormat.format(date);
-
-        // create new exercise
-        Exercise testExercise = new Exercise("Pull Ups", "30", "strict pull ups", formattedDate);
-
-        // add that to the DB
-        db.exerciseDao().insert(testExercise);
 
     }
 
@@ -64,6 +44,29 @@ public class ExerciseDiary extends AppCompatActivity {
 
         databaseListView.setAdapter(arrayAdapter);
 
+    }
+
+    public void recordExercise(View view){
+        final EditText titleField = (EditText) findViewById(R.id.exerciseTitle);
+        String title = titleField.getText().toString();
+
+        final EditText quantityField = (EditText) findViewById(R.id.exerciseQuantity);
+        String quantity = quantityField.getText().toString();
+
+        final EditText descriptionField = (EditText) findViewById(R.id.exerciseDescription);
+        String description = descriptionField.getText().toString();
+
+        Date date = new Date();
+        String dateFormatStringified = "hh:mm:ss a";
+        DateFormat dateFormat = new SimpleDateFormat(dateFormatStringified);
+        String formattedDate = dateFormat.format(date);
+
+        Exercise recordedExercise = new Exercise(title, quantity, description, formattedDate);
+
+        db.exerciseDao().insert(recordedExercise);
+
+        finish();
+        startActivity(getIntent());
     }
 
 }
