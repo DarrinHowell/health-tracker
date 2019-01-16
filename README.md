@@ -18,3 +18,38 @@ Darrin Howell
 ## 20190110:
 * Added annotations to Room database implementation
 * Having compiler errors adding to the database
+
+
+## Features on display: 
+
+#### Activities partitioned into separate views
+
+![home view](./app/changelog_assets/healthTracker_ActivitiesBrokenUp.png)
+
+#### Finger Flexor, no clicks
+
+![home view](./app/changelog_assets/health-tracker_fingerFlexor_noClicks.png)
+
+#### Finger Flexor, 10 clicks
+
+![home view](./app/changelog_assets/heatlh-tracker_fingerFlexor_tenClicks.png)
+
+#### Stop watch, not started
+
+![home view](./app/changelog_assets/heatlh-tracker_stopWatch_NotStarted.png)
+
+#### Stop watch, time elapsed
+
+![home view](./app/changelog_assets/health-tracker_stopWatch_timeElapsed.png)
+
+#### Stop watch, paused
+
+![home view](./app/changelog_assets/health-tracker_stopWatch_paused.png)
+
+#### Stop watch, reset
+
+![home view](./app/changelog_assets/health-tracker_stopwatch_reset.png)
+
+#### Notification sent
+
+![home view](./app/changelog_assets/health-tracker_notificationSent_onSchedule.png)

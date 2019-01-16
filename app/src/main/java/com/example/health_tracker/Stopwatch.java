@@ -14,6 +14,7 @@ import android.widget.TextView;
 public class Stopwatch extends AppCompatActivity {
 //    ViewPager viewPager;
     boolean isPaused;
+    boolean isRunning = false;
     TextView textTimer;
     private Handler customHandler = new Handler();
     private long startTime=0L, timeInMilliseconds=0L, timeSwapBuff=0L, updateTime=0L;
@@ -38,17 +39,23 @@ public class Stopwatch extends AppCompatActivity {
     };
 
     public void startTimer(View view) {
-        startTime = SystemClock.uptimeMillis();
+
 
         if(isPaused) {
             isPaused = false;
         }
 
-        customHandler.postDelayed(updateTimeThread, 0);
+        if(!isRunning) {
+            isRunning = true;
+            startTime = SystemClock.uptimeMillis();
+            customHandler.postDelayed(updateTimeThread, 0);
+        }
+
     }
 
     public void pauseTimer(View view) {
         isPaused = true;
+        isRunning = false;
         timeSwapBuff += timeInMilliseconds;
         customHandler.removeCallbacks(updateTimeThread);
     }
