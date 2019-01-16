@@ -19,6 +19,11 @@ Darrin Howell
 * Added annotations to Room database implementation
 * Having compiler errors adding to the database
 
+## 20190116
+* Added form to exercise diary
+* Database rendering data
+* Database updating when input entered into form
+
 
 ## Features on display: 
 
@@ -53,3 +58,7 @@ Darrin Howell
 #### Notification sent
 
 ![home view](./app/changelog_assets/health-tracker_notificationSent_onSchedule.png)
+
+#### Exercise Diary with form
+
+![home view](./app/changelog_assets/health-tracker_exerciseDiaryAndForm.png)

@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+// attribution to Jess Lovell for the tip on running our DB on the main UI thread.
 public class ExerciseDiary extends AppCompatActivity {
     ExerciseDatabase db;
     ListView databaseListView;
@@ -31,10 +32,6 @@ public class ExerciseDiary extends AppCompatActivity {
     }
 
     public void renderExerciseToDB() {
-
-        // retrieve exercise
-        // find correct listView
-        // set View Data into listView
 
         List<Exercise> exercises = db.exerciseDao().getAll();
 
