@@ -47,17 +47,17 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stopWatchNav"
-        app:layout_constraintBottom_toTopOf="@+id/saveToDB"
+        app:layout_constraintBottom_toTopOf="@+id/navigateToExerciseDiary"
         tools:layout_editor_absoluteY="291dp" />
 
     <Button
-        android:id="@+id/saveToDB"
+        android:id="@+id/navigateToExerciseDiary"
         android:layout_width="128dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
-        android:onClick="onDBTestClick"
-        android:text="Save Test"
+        android:onClick="onExerciseDiaryNavClick"
+        android:text="Exercise Diary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
