@@ -23,7 +23,8 @@
 
         <receiver android:name=".MyNotificationPublisher" />
 
-        <activity android:name=".ExerciseDiary"></activity>
+        <activity android:name=".ExerciseDiary"
+            android:windowSoftInputMode="adjustNothing"></activity>
     </application>
 
 </manifest>
