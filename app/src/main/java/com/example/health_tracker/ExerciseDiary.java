@@ -3,7 +3,6 @@ package com.example.health_tracker;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
-import android.app.DownloadManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -16,9 +15,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import java.util.List;
 public class ExerciseDiary extends AppCompatActivity {
     ExerciseDatabase db;
     ListView databaseListView;
+    long lastExerciseRecord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +37,13 @@ public class ExerciseDiary extends AppCompatActivity {
         db = Room.databaseBuilder(getApplicationContext(),
                 ExerciseDatabase.class, "exercise-diary").allowMainThreadQueries().build();
 
-        renderExerciseToDB();
-        getExercisesFromServer();
+        renderExerciseFromDB();
 
     }
 
-    public void renderExerciseToDB() {
+    public void renderExerciseFromDB() {
+
+        getExercisesFromServer();
 
         List<Exercise> exercises = db.exerciseDao().getAll();
 
@@ -52,6 +55,7 @@ public class ExerciseDiary extends AppCompatActivity {
 
     }
 
+    // take in form data from the front end
     public void recordExercise(View view){
         final EditText titleField = (EditText) findViewById(R.id.exerciseTitle);
         String title = titleField.getText().toString();
@@ -75,8 +79,13 @@ public class ExerciseDiary extends AppCompatActivity {
         startActivity(getIntent());
     }
 
+    // attribution for request pattern: https://developer.android.com/training/volley/simple
     public void getExercisesFromServer() {
-//        final TextView mTextView = (TextView) findViewById(R.id.text);
+
+        List<Exercise> localExerciseRecords = db.exerciseDao().getAll();
+
+        lastExerciseRecord = localExerciseRecords.size();
+
 
 // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -89,6 +98,29 @@ public class ExerciseDiary extends AppCompatActivity {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         System.out.println("Response is: " + response);
+
+                        // from JSON
+                        Gson gson = new Gson();
+                        Exercise[] exerciseList = gson.fromJson(response, Exercise[].class);
+
+                        List<Exercise> newExerciseEntries = new ArrayList<>();
+
+                        for (int i = (int) lastExerciseRecord; i < exerciseList.length; i++) {
+                            newExerciseEntries.add(exerciseList[i]);
+                        }
+
+                        for(Exercise exercise : newExerciseEntries) {
+                            String title = exercise.title;
+                            String quantity = exercise.quantity;
+                            String description = exercise.description;
+                            String timeStamp = exercise.timeStamp;
+
+                            Exercise newExercise = new Exercise(title, quantity, description, timeStamp);
+
+                            db.exerciseDao().insert(newExercise);
+
+                        }
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -99,6 +131,7 @@ public class ExerciseDiary extends AppCompatActivity {
 
 // Add the request to the RequestQueue.
         queue.add(stringRequest);
+
     }
 
 }
