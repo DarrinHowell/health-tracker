@@ -51,6 +51,13 @@
                 android:inputType="text" />
 
             <Button
+                android:id="@+id/dBTest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="getExercisesFromServer"
+                android:text="Button" />
+
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="recordExercise"

@@ -16,6 +16,9 @@ public interface ExerciseDao {
     @Insert
     void insert(Exercise exercise);
 
+    @Insert
+    void insertAll(List<Exercise> exercises);
+
     @Delete
-    void delete(Exercise excercise);
+    void delete(Exercise exercise);
 }
