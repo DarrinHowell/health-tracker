@@ -142,6 +142,8 @@ public class ExerciseDiary extends AppCompatActivity {
 
     }
 
+    // attribution for performing a post reqeust and sending a post.body: https://stackoverflow.com/questions/33573803/how-to-send-a-post-request-using-volley-with-string-body
+    // saves new exercise entity to local db and sends a post body to server to be saved in server db
     public void postExercisesToLocalAndDeployedDBs(View view) {
 
         Exercise recordedExercise = buildExerciseFromFormInput();
@@ -188,6 +190,8 @@ public class ExerciseDiary extends AppCompatActivity {
                 return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
             }
         };
+
+        requestQueue.add(stringRequest);
 
         finish();
         startActivity(getIntent());
