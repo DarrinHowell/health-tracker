@@ -5,7 +5,7 @@ Darrin Howell
 
 ### Overview: 
 The vision behind building this app is to provide a lightweight resource for app users to 
-initiate positive, healthy change in their lives.<br/> 
+initiate positive, healthy change in their lives. <br/> 
 
 The Health Tracker app enables user to track exercise progress, use a built in stopwatch, 
 receive recurring reminders for hydration, and perform finger flexor exercises. <br/>

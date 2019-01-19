@@ -4,19 +4,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -132,6 +140,77 @@ public class ExerciseDiary extends AppCompatActivity {
 // Add the request to the RequestQueue.
         queue.add(stringRequest);
 
+    }
+
+    public void postExercisesToLocalAndDeployedDBs(View view) {
+
+        Exercise recordedExercise = buildExerciseFromFormInput();
+        db.exerciseDao().insert(recordedExercise);
+
+        Gson gson = new Gson();
+        final String recordedExerciseStringified = gson.toJson(recordedExercise);
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        String url = "https://health-tracker-backend-dbh.herokuapp.com/newExercise";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("VOLLEY", response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY", error.toString());
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return recordedExerciseStringified == null ? null : recordedExerciseStringified.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", recordedExerciseStringified, "utf-8");
+                    return null;
+                }
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String responseString = "";
+                if (response != null) {
+                    responseString = String.valueOf(response.statusCode);
+                    // can get more details such as response.headers
+                }
+                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+            }
+        };
+
+        finish();
+        startActivity(getIntent());
+    }
+
+    public Exercise buildExerciseFromFormInput() {
+        final EditText titleField = (EditText) findViewById(R.id.exerciseTitle);
+        String title = titleField.getText().toString();
+
+        final EditText quantityField = (EditText) findViewById(R.id.exerciseQuantity);
+        String quantity = quantityField.getText().toString();
+
+        final EditText descriptionField = (EditText) findViewById(R.id.exerciseDescription);
+        String description = descriptionField.getText().toString();
+
+        Date date = new Date();
+        String dateFormatStringified = "hh:mm:ss a";
+        DateFormat dateFormat = new SimpleDateFormat(dateFormatStringified);
+        String formattedDate = dateFormat.format(date);
+
+        Exercise recordedExercise = new Exercise(title, quantity, description, formattedDate);
+
+        return recordedExercise;
     }
 
 }
