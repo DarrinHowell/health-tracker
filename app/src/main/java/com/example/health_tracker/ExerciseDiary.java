@@ -22,8 +22,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
-import org.json.JSONException;
-
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -63,36 +61,19 @@ public class ExerciseDiary extends AppCompatActivity {
 
     }
 
-    // take in form data from the front end
-    public void recordExercise(View view){
-        final EditText titleField = (EditText) findViewById(R.id.exerciseTitle);
-        String title = titleField.getText().toString();
-
-        final EditText quantityField = (EditText) findViewById(R.id.exerciseQuantity);
-        String quantity = quantityField.getText().toString();
-
-        final EditText descriptionField = (EditText) findViewById(R.id.exerciseDescription);
-        String description = descriptionField.getText().toString();
-
-        Date date = new Date();
-        String dateFormatStringified = "hh:mm:ss a";
-        DateFormat dateFormat = new SimpleDateFormat(dateFormatStringified);
-        String formattedDate = dateFormat.format(date);
-
-        Exercise recordedExercise = new Exercise(title, quantity, description, formattedDate);
-
-        db.exerciseDao().insert(recordedExercise);
-
-        finish();
-        startActivity(getIntent());
-    }
-
     // attribution for request pattern: https://developer.android.com/training/volley/simple
     public void getExercisesFromServer() {
 
-        List<Exercise> localExerciseRecords = db.exerciseDao().getAll();
+        List<Exercise> localExerciseRecords;
 
-        lastExerciseRecord = localExerciseRecords.size();
+        if(db.exerciseDao().getAll() != null) {
+            localExerciseRecords = db.exerciseDao().getAll();
+            lastExerciseRecord = localExerciseRecords.size();
+        } else {
+            lastExerciseRecord = 0;
+        }
+
+
 
 
 // Instantiate the RequestQueue.
@@ -197,6 +178,7 @@ public class ExerciseDiary extends AppCompatActivity {
         startActivity(getIntent());
     }
 
+    // gets input data from exercise diary form, returns exercise object
     public Exercise buildExerciseFromFormInput() {
         final EditText titleField = (EditText) findViewById(R.id.exerciseTitle);
         String title = titleField.getText().toString();
