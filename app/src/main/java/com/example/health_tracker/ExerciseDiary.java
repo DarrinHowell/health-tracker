@@ -69,12 +69,10 @@ public class ExerciseDiary extends AppCompatActivity {
         if(db.exerciseDao().getAll() != null) {
             localExerciseRecords = db.exerciseDao().getAll();
             lastExerciseRecord = localExerciseRecords.size();
+            System.out.println("last");
         } else {
             lastExerciseRecord = 0;
         }
-
-
-
 
 // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -94,7 +92,7 @@ public class ExerciseDiary extends AppCompatActivity {
 
                         List<Exercise> newExerciseEntries = new ArrayList<>();
 
-                        for (int i = (int) lastExerciseRecord; i < exerciseList.length; i++) {
+                        for (int i = (int) lastExerciseRecord - 1; i < exerciseList.length; i++) {
                             newExerciseEntries.add(exerciseList[i]);
                         }
 
