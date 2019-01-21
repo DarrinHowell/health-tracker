@@ -33,7 +33,7 @@ import java.util.List;
 public class ExerciseDiary extends AppCompatActivity {
     ExerciseDatabase db;
     ListView databaseListView;
-    long lastExerciseRecord;
+    int firstUpdatedExerciseRecord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,18 +65,12 @@ public class ExerciseDiary extends AppCompatActivity {
     public void getExercisesFromServer() {
 
         List<Exercise> localExerciseRecords;
-
-        if(db.exerciseDao().getAll() != null) {
-            localExerciseRecords = db.exerciseDao().getAll();
-            lastExerciseRecord = localExerciseRecords.size();
-            System.out.println("last");
-        } else {
-            lastExerciseRecord = 0;
-        }
+        localExerciseRecords = db.exerciseDao().getAll();
+        firstUpdatedExerciseRecord = localExerciseRecords.size();
 
 // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://health-tracker-backend-dbh.herokuapp.com/exercises";
+        String url = "https://health-tracker-backend-dbh.herokuapp.com/exercises";
 
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -88,12 +82,12 @@ public class ExerciseDiary extends AppCompatActivity {
 
                         // from JSON
                         Gson gson = new Gson();
-                        Exercise[] exerciseList = gson.fromJson(response, Exercise[].class);
+                        Exercise[] exerciseListFromServer = gson.fromJson(response, Exercise[].class);
 
                         List<Exercise> newExerciseEntries = new ArrayList<>();
 
-                        for (int i = (int) lastExerciseRecord - 1; i < exerciseList.length; i++) {
-                            newExerciseEntries.add(exerciseList[i]);
+                        for (int i = firstUpdatedExerciseRecord; i < exerciseListFromServer.length; i++) {
+                            newExerciseEntries.add(exerciseListFromServer[i]);
                         }
 
                         for(Exercise exercise : newExerciseEntries) {
