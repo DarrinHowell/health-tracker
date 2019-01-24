@@ -3,6 +3,7 @@ package com.example.health_tracker;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,13 +44,23 @@ public class ExerciseDiary extends AppCompatActivity {
         db = Room.databaseBuilder(getApplicationContext(),
                 ExerciseDatabase.class, "exercise-diary").allowMainThreadQueries().build();
 
-        renderExerciseFromDB();
+        AsyncTask asyncTask = new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                getExercisesFromServer();
+                return null;
+            }
+        };
 
+        asyncTask.execute();
+    }
+
+    protected void onRestart() {
+        super.onRestart();
+        renderExerciseFromDB();
     }
 
     public void renderExerciseFromDB() {
-
-        getExercisesFromServer();
 
         List<Exercise> exercises = db.exerciseDao().getAll();
 
@@ -68,11 +79,11 @@ public class ExerciseDiary extends AppCompatActivity {
         localExerciseRecords = db.exerciseDao().getAll();
         firstUpdatedExerciseRecord = localExerciseRecords.size();
 
-// Instantiate the RequestQueue.
+        // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "https://health-tracker-backend-dbh.herokuapp.com/exercises";
 
-// Request a string response from the provided URL.
+        // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -83,6 +94,7 @@ public class ExerciseDiary extends AppCompatActivity {
                         // from JSON
                         Gson gson = new Gson();
                         Exercise[] exerciseListFromServer = gson.fromJson(response, Exercise[].class);
+
 
                         List<Exercise> newExerciseEntries = new ArrayList<>();
 
@@ -102,6 +114,8 @@ public class ExerciseDiary extends AppCompatActivity {
 
                         }
 
+                        renderExerciseFromDB();
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -110,7 +124,7 @@ public class ExerciseDiary extends AppCompatActivity {
             }
         });
 
-// Add the request to the RequestQueue.
+        // Add the request to the RequestQueue.
         queue.add(stringRequest);
 
     }
